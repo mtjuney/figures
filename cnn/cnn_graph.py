@@ -1,7 +1,45 @@
 import pygraphviz as pgv
 
 
-g = pgv.AGraph(directed = True)
+g = pgv.AGraph(directed = True, strict='true', rankdir="LR", ordering="out", splines="line", compound='true')
+
+layer_nodenum = [4, 3, 3, 2]
+
+g.node_attr["style"] = "solid"
+g.node_attr["shape"] = "circle"
+g.node_attr['fixedsize']='true'
+
+for n in range(len(layer_nodenum) - 1):
+
+	layer_nodes = ["{}_b".format(n)]
+
+	for j in range(layer_nodenum[n + 1]):
+		for i in range(layer_nodenum[n]):
+			g.add_edge("{}_{}".format(n, i), "{}_{}".format(n + 1, j))
+			layer_nodes.append("{}_{}".format(n, i))
+		g.add_edge("{}_b".format(n), "{}_{}".format(n + 1, j))
+
+	g.add_subgraph(layer_nodes, name="layer_{}".format(n))
+
+layer_nodes = []
+
+
+for i in range(layer_nodenum[-1]):
+	layer_nodes.append("{}_{}".format(len(layer_nodenum) - 1, i))
+
+g.add_subgraph(layer_nodes, name="output")
+
+g.node_attr["label"] = ""
+
+g.layout("dot")
+g.draw('multi_perceptron.png')
+
+g.clear()
+
+
+
+
+
 
 nodes = [["1", "2", "3", "4", "5"], ["6", "7", "8"]]
 
