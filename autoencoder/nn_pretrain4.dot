@@ -1,0 +1,31 @@
+digraph G {
+
+  compound = true;
+  ordering="out";
+  rankdir=LR
+	splines=line
+
+  node [fixedsize=true];
+
+  subgraph cluster_0 {
+		node [style=solid, shape=circle];
+		x1 x2 x3 x4 x5;
+		label = "入力層";
+	}
+
+	subgraph cluster_1 {
+		node [style=solid, shape=circle];
+		u1_1 u1_2 u1_3;
+		label = "第1層";
+	}
+
+
+
+        x1, x2, x3, x4, x5, u1_1, u1_2, u1_3 [label=""]
+        i [shape=none, label="Xn"]
+        o [shape=none, label="Zn(1)"]
+
+        i -> x3 [lhead=cluster_0]
+        x3 -> u1_2 [lhead=cluster_1, ltail=cluster_0, label="W(1)"]
+        u1_2 -> o [ltail=cluster_1]
+}

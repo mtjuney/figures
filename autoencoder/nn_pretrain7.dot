@@ -1,0 +1,54 @@
+digraph G {
+
+  compound = true;
+  ordering="out";
+  rankdir=LR
+	splines=line
+
+  node [fixedsize=true, label=""];
+
+  subgraph cluster_0 {
+		node [style=solid, shape=circle];
+		x1 x2 x3 x4 x5;
+		label = "入力層";
+	}
+
+	subgraph cluster_1 {
+		node [style=solid, shape=circle];
+		u1_1 u1_2 u1_3;
+		label = "第1層";
+	}
+
+  subgraph cluster_2 {
+    node [style=solid, shape=circle];
+    u2_1 u2_2 u2_3;
+    label = "第2層"
+  }
+
+  subgraph cluster_3 {
+    node [style=solid, shape=circle];
+    u3_1 u3_2 u3_3;
+    label = "第3層"
+  }
+
+  subgraph cluster_4 {
+    node [style=solid, shape=circle];
+    y1 y2 y3;
+    label = "出力層"
+  }
+
+
+
+
+
+        i [shape=none, label="input"]
+        o [shape=none, label="output"]
+
+        i -> x3 [lhead=cluster_0]
+        x3 -> u1_2 [lhead=cluster_1, ltail=cluster_0, label="W(1) pre-trained"]
+        u1_2 -> u2_2 [lhead=cluster_2, ltail=cluster_1, label="W(2) pre-trained"]
+        u2_2 -> u3_2 [lhead=cluster_3, ltail=cluster_2, label="W(3) pre-trained"]
+        u3_2 -> y2 [lhead=cluster_4, ltail=cluster_3, label="W(4) random"]
+        y2 -> o [ltail=cluster_4]
+
+}
